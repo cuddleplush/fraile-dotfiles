@@ -1,0 +1,6 @@
+hide_window_decorations yes
+
+# BEGIN_KITTY_THEME
+# Duotone Dark
+include current-theme.conf
+# END_KITTY_THEME
