@@ -52,15 +52,19 @@ super + F11
 
 #Rofi
 super + d
-    /home/max/.config/rofi/scripts/launcher_t7
+    ~/.config/rofi/scripts/launcher_t7
 
 #Apps
 super + z
-    /home/max/.config/rofi/applets/bin/apps.sh
+    ~/.config/rofi/applets/bin/apps.sh
 
 #powermenu
 super + x
-    /home/max/.config/rofi/scripts/powermenu_t1
+    ~/.config/rofi/scripts/powermenu_t1
+
+#dashboard
+super + a
+    ~/.config/eww/dashboard/launch_dashboard
     
 #################################################################
 # SUPER + ... KEYS

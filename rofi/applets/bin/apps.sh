@@ -37,7 +37,7 @@ if [[ "$layout" == 'NO' ]]; then
 	option_3=" Editor <span weight='light' size='small'><i>($text_cmd)</i></span>"
 	option_4=" Browser <span weight='light' size='small'><i>($web_cmd)</i></span>"
 	option_5=" Music <span weight='light' size='small'><i>($music_cmd)</i></span>"
-	option_6=" Messanger <span weight='light' size='small'><i>($discord_cmd)</i></span>"
+	option_6=" Messenger <span weight='light' size='small'><i>($discord_cmd)</i></span>"
 else
 	option_1=""
 	option_2=""

@@ -24,7 +24,7 @@ window {
 //    anchor:                      center;
     fullscreen:                  false;
     width:                       400px;
-    x-offset:                    750px;
+    x-offset:                    0px;
     y-offset:                    -384px;
 
     /* properties for all widgets */
@@ -156,6 +156,6 @@ element-text {
     horizontal-align:            0.0;
 }
 element selected.normal {
-    background-color:            var(selected);
+    background-color:            #FFFFFF;
     text-color:                  var(background);
 }

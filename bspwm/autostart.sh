@@ -14,6 +14,7 @@ function run {
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 #autorandr horizontal
 
+xlayoutdisplay -p DisplayPort-1 -o HDMI-A-1 -o DisplayPort-1
 
 #change your keyboard if you need it
 #setxkbmap -layout be
@@ -46,6 +47,7 @@ numlockx on &
 blueberry-tray &
 #picom --config $HOME/.config/bspwm/picom.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+/usr/lib/xfce4/notifyd/xfce4-notifyd &
 run volumeicon &
 #nitrogen --restore &
 #run caffeine &
@@ -58,10 +60,14 @@ run volumeicon &
 #run spotify &
 #run atom &
 picom --experimental-backend -b --config  $HOME/.config/picom.conf
-xinput --set-prop 15 'libinput Accel Profile Enabled' 0, 1
+xinput --set-prop 8 'libinput Accel Profile Enabled' 0, 1
 run nitrogen --restore
 
 #$HOME/.config/polybar/launch.sh &
 polybar fraile -r &
 polybar fraile-2 -r &
 
+# MPD daemon start (if no other user instance exists)
+[ ! -s ~/.config/mpd/pid ] && mpd
+
+mopidy &

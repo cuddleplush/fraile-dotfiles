@@ -107,9 +107,9 @@ if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.z
   source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-setopt GLOB_DOTS
+#setopt GLOB_DOTS
 #share commands between terminal instances or not
-unsetopt SHARE_HISTORY
+#unsetopt SHARE_HISTORY
 #setopt SHARE_HISTORY
 
 # If not running interactively, don't do anything
@@ -119,8 +119,8 @@ export HISTCONTROL=ignoreboth:erasedups
 
 # Make nano the default editor
 
-export EDITOR='nano'
-export VISUAL='nano'
+export EDITOR='nvim'
+export VISUAL='code'
 
 #PS1='[\u@\h \W]\$ '
 
@@ -135,7 +135,12 @@ fi
 ### ALIASES ###
 
 #bunny
-alias bun='/home/max/MyRice/misc/bin/./bunnyfetch'
+alias bun='~/.config/kitty/scripts/./bunnyfetch'
+
+alias inst='sudo pacman -S'
+alias yinst='yay -S'
+
+alias lulu='cat .lulu'
 
 #list
 alias ls='ls --color=auto'
@@ -447,4 +452,4 @@ bun
 #cpufetch
 #colorscript random
 
-export PATH=$PATH:/home/max/.spicetify
+export PATH=$PATH:~/.spicetify
