@@ -24,7 +24,7 @@ fi
 # CMDs (add your apps here)
 term_cmd='kitty'
 file_cmd='thunar'
-text_cmd='code'
+text_cmd='vscodium'
 web_cmd='firefox'
 music_cmd='spotify'
 discord_cmd='discord-canary'

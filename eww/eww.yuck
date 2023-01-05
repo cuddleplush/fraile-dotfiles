@@ -1,0 +1,583 @@
+;; Variables
+
+(include "sidebar.yuck")
+(include "system-menu.yuck")
+
+(defpoll volume_percent :initial "50" :interval "1s" "scripts/get_audio_volume")
+(defpoll clock_time :interval "30s" "date +\%l")
+(defpoll clock_minute :interval "5s" "date '+\%M \%p'")
+(defpoll clock_date :interval "10h" "date '+%b %d, %Y'")
+(defpoll calendar_day :interval "20h" "date '+%d'")
+(defpoll calendar_year :interval "20h" "date '+%Y'")
+(defpoll mic_percent :interval "1s" "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print $2*100}'")
+(defpoll brightness_percent :interval "5s" "light")
+(defpoll COL_WLAN :interval "5s" "scripts/wifi --COL")
+(defpoll ESSID_WLAN :interval "5s" "scripts/wifi --ESSID")
+(defpoll WLAN_ICON :interval "5s" "scripts/wifi --ICON")
+(defpoll song :interval "2s"  "scripts/music_info --song")
+(defpoll song_artist :interval "2s"  "scripts/music_info --artist")
+(defpoll current_status :interval "2s"  "scripts/music_info --time")
+(defpoll song_status :interval "2s"  "scripts/music_info --status")
+(defpoll cover_art :interval "2s"  "scripts/music_info --cover")
+(defpoll ram_used :interval "2s" "scripts/ram_info")
+(defpoll ram_percent :interval "2s" "scripts/ram_percentage")
+(deflisten workspace_main "~/workspace-hyprland/target/debug/workspace DP-2")
+(deflisten workspace_second "~/workspace-hyprland/target/debug/workspace HDMI-A-2")
+; (deflisten workspace_main "scripts/workspace DP-3")
+; (deflisten workspace_second "scripts/workspace HDMI-A-1")
+(deflisten appname "scripts/wlr_window")
+(deflisten wlr_status "scripts/wlr_mode")
+(deflisten cava_read "scripts/cava")
+
+(defvar vol_reveal false)
+(defvar br_reveal false)
+(defvar music_reveal true)
+(defvar wifi_rev false)
+(defvar control_reveal false)
+(defvar time_rev false)
+(defvar mem_rev false)
+(defvar sound_rev false)
+(defvar sound_test false)
+(defvar arrow "")
+
+;; widgets
+
+(defwidget space[]
+  (box :class "space" ""))
+
+(defwidget workspaces_main []
+  (literal 
+    :content workspace_main))
+(defwidget workspaces_second []
+  (literal 
+    :content workspace_second))
+
+(defwidget appnames []
+  (eventbox
+    :onhover "${EWW_CMD} update control_reveal=true"
+	  :onhoverlost "${EWW_CMD} update control_reveal=false"
+    (box
+      :class "appnames_top"
+	    :space-evenly "false"
+      appname
+	    (revealer
+	      :transition "slideright"
+		    :reveal control_reveal
+		    :duration "350ms"
+        (box
+            :vexpand "false"
+            :hexpand "false"
+            :orientation "h"
+            :space-evenly "false"
+            (button
+                :class "app-button"
+                :onclick "hyprctl dispatch togglefloating 1" "") 
+		  	    (button
+		  	        :class "app-button"
+		  	        :onclick "hyprctl dispatch fullscreen 0" "")
+		  	    (button
+		  	        :class "app-button"
+                :onclick "hyprctl dispatch killactive 1" ""))))))
+(defwidget cava []
+  (box :space-evenly "false"
+       :class "cava"  cava_read))
+
+
+(defwidget music [] 
+  (eventbox
+    :onhover "${EWW_CMD} update music_reveal=true"
+	:onhoverlost "${EWW_CMD} update music_reveal=false"
+	(box 
+	    :class "music_module"
+	    :orientation "h"
+	    :space-evenly "false"
+	    :vexpand "false"
+	    :hexpand "false" 
+		(box 
+		    :class "song_cover_art"
+		    :vexpand "false"
+		    :hexpand "false"
+		    :style "background-image: url('${cover_art}');")
+		(button
+		    :class "song"
+		    :wrap "true"
+		    :onclick "scripts/pop music" song)
+	    (revealer 
+	        :transition "slideright"
+			:reveal music_reveal
+			:duration "350ms"
+      (box 
+          :vexpand "false"
+          :hexpand "false"
+          :orientation "h" 
+          :space-evenly "false"
+          (button
+              :class "song_btn_prev"
+              :onclick "scripts/music_info --prev" "")
+				  (button 
+				      :class "song_btn_play"
+				      :onclick "scripts/music_info --toggle" song_status)
+				  (button 
+				      :class "song_btn_next"
+				      :onclick "scripts/music_info --next" "")
+				)))))
+(defwidget sound []
+  (eventbox
+    :onclick { sound_test==false ? "${EWW_CMD} update sound_test=true && ${EWW_CMD} update arrow=" : "${EWW_CMD} update sound_test=false && ${EWW_CMD} update arrow="}
+        (box
+        :class "vol-module"
+        :space-evenly "false"
+        :orientation "h"
+        :spacing "0" 
+	        (revealer 
+          :transition "slideright"
+			    :reveal sound_test
+			    :duration "600ms"
+            (box
+            (label :text cava_read
+                   :class "volbar")
+            (eventbox
+            :onscroll "$(echo 'wpctl set-volume @DEFAULT_SINK@ {}%' | sed 's/up%/2%+/' | sed 's/down%/2%-/')"
+	            (scale  
+              :class "volbar"
+			        :value volume_percent
+			        :orientation "h"
+			        :tooltip "${volume_percent}%"
+			        :max 100
+			        :min 0
+			        :onchange "wpctl set-volume @DEFAULT_SINK@ {}%" )
+            )
+          )
+        )
+        (label
+            :class "volume_icon"
+            :tooltip "${volume_percent}%"
+            :text arrow)    
+
+        )
+  )
+)
+
+(defwidget volume []
+  (eventbox 
+    :onhover "${EWW_CMD} update vol_reveal=true"
+    :onhoverlost "${EWW_CMD} update vol_reveal=false"
+    :onscroll "$(echo 'wpctl set-volume @DEFAULT_SINK@ {}%' | sed 's/up%/2%+/' | sed 's/down%/2%-/')"
+    (box
+        :class "vol-module"
+        :space-evenly "false"
+        :orientation "h"
+        :spacing "6" 
+	        (revealer 
+	            :transition "slideright"
+			    :reveal vol_reveal
+			    :duration "350ms"
+	            (scale  
+	                :class "volbar"
+			        :value volume_percent
+			        :orientation "h"
+			        :tooltip "${volume_percent}%"
+			        :max 100
+			        :min 0
+			        :onchange "wpctl set-volume @DEFAULT_SINK@ {}%" ))
+	        (button
+	            :onclick "scripts/pop audio"
+	            :class "volume_icon"
+                    :tooltip "${volume_percent}%"
+	            ""))))
+
+(defwidget wifi [] 
+  (eventbox 
+    :onhover "${EWW_CMD} update wifi_rev=true"
+	:onhoverlost "${EWW_CMD} update wifi_rev=false"
+	(box
+      :class "wifi_module" 
+	    :vexpand "false"
+	    :hexpand "false"
+	    :space-evenly "false"
+	    (revealer 
+	      :transition "slideright"
+		    :reveal wifi_rev
+  			:duration "350ms"
+	        (label
+	        :class "module_essid"
+			    :orientation "h"
+          :text ESSID_WLAN
+            ))
+		(button
+		    :class "module-wif"
+		    :onclick "nmtui"
+		    WLAN_ICON))))
+
+
+(defwidget mem []
+    (eventbox 
+        :onhover "${EWW_CMD} update mem_rev=true"
+        :onhoverlost "${EWW_CMD} update mem_rev=false"
+		(box 
+        :class "mem_module" 
+        :vexpand "false" 
+        :hexpand "false" 
+        :space-evenly "false"
+        (revealer 
+            :transition "slideright"
+            :reveal mem_rev
+            :duration "350ms"
+            (label
+                :class "module_mem_use"
+                :text "${ram_used} Gib"
+        ))
+        (circular-progress 
+            :value ram_percent
+            :class "membar"
+            :thickness 8
+            (button 
+                :onclick "scripts/pop system"
+                :class "iconmem"
+            ))
+        )))
+    
+(defwidget clock_module []
+  (eventbox
+      :onhover "${EWW_CMD} update time_rev=true"
+  	:onhoverlost "${EWW_CMD} update time_rev=false"
+      (box
+          :class "module"
+          :space-evenly "false"
+          :orientation "h"
+          :spacing "0" 
+          (label
+              :text clock_time
+              :class "clock_time_class" )
+          (label 
+              :text ":"
+              :class "clock_time_sep" )
+          (label 
+              :text clock_minute 
+              :class "clock_minute_class")
+          (revealer :transition "slideleft"
+  		    :reveal time_rev
+  		    :duration "350ms"
+              (button 
+                  :class "clock_date_class"
+                  :onclick "scripts/pop calendar" clock_date)))))
+
+
+
+;;define widget groups
+(defwidget left_main []
+	(box 
+	  :orientation "h" 
+		:space-evenly false  
+    :halign "start"
+		:class "left_modules"
+    (workspaces_main)
+    ))
+(defwidget left_second []
+	(box 
+	  :orientation "h" 
+		:space-evenly false  
+    :halign "start"
+		:class "left_modules"
+    (workspaces_second)
+    ))
+(defwidget center []
+	(box 
+     :orientation "h" 
+		 :space-evenly true
+      :halign "center"
+		 :class "center_modules"
+    (appnames)
+    ))
+(defwidget right []
+	(box
+	  :orientation "h" 
+		:space-evenly false
+        :halign "end"
+		:class "right_modules"
+    (sound)
+    (wifi)
+    (mem)
+    (clock_module)
+    (space)
+))
+
+(defwidget bar_layout_main []
+  (centerbox 
+    :class "bar_class"
+    :orientation "h"
+    (left_main)
+    (center)
+    (right)
+    ))
+(defwidget bar_layout_second []
+  (centerbox 
+    :class "bar_class"
+    :orientation "h"
+    (left_second)
+    (center)
+    (right)
+    ))
+(defwindow bar
+    :monitor 0
+    :exclusive true
+    :geometry (geometry 
+        :x "15px"
+        :y "0px"
+        :width "100%"
+        :height "50px"
+        :anchor "top center")
+    :stacking "bg"
+    (bar_layout_main))
+(defwindow bar1
+    :monitor 1
+    :exclusive true
+    :geometry (geometry 
+        :x "15px"
+        :y "0px"
+        :width "100%"
+        :height "50px"
+        :anchor "top center")
+    :stacking "fg"
+    (bar_layout_second))
+
+
+;;  Music Pop-Up
+(defwidget music_pop []
+	(box 
+	    :class "music_pop" 
+	    :orientation "h"
+	    :space-evenly "false"
+	    :vexpand "false"
+	    :hexpand "false"
+		(box 
+		    :class "music_cover_art"
+		    :vexpand "false"
+		    :hexpand "false"
+		    :style "background-image: url('${cover_art}');")
+		(box 
+		    :orientation "v"
+		    :space-evenly "false"
+		    :vexpand "false"
+		    :hexpand "false"
+			(label
+			    :halign "center"
+			    :class "music"
+			    :wrap "true"
+			    :limit-width 13
+			    :text song)
+			(label
+			    :halign "center"
+			    :class "music_artist"
+			    :wrap "true" 
+			    :limit-width 15 
+			    :text song_artist)
+			(box 
+			    :orientation "h"
+			    :spacing 15 
+			    :halign "center"
+			    :space-evenly "false"
+			    :vexpand "false"
+			    :hexpand "false"
+				(button
+				    :class "music_btn_prev"
+				    :onclick "scripts/music_info --prev" "")
+				(button
+				    :class "music_btn_play"
+				    :onclick "scripts/music_info --toggle" song_status)
+				(button
+				    :class "music_btn_next"
+				    :onclick "scripts/music_info --next" ""))
+			(box 
+			    :class "music_bar"
+			    :halign "center"
+			    :vexpand "false"
+			    :hexpand "false"
+			    :space-evenly "false"
+				(scale
+				    :onscroll "mpc -q seek {}"
+				    :min 0 
+				    :active "true"
+				    :max 100 
+				    :value current_status)
+				    ))))
+(defwindow music_win 
+    :focusable "true"
+	:geometry (geometry 
+        :width 428 
+        :height 104 
+        :anchor "top center")
+    (music_pop))
+
+
+
+(defwidget audio []
+	(box 
+	    :class "audio-box"
+	    :orientation "v"
+	    :space-evenly "false"
+	    :vexpand "false"
+	    :hexpand "false"
+	    (box 
+	        :halign "v"
+	        :space-evenly "false"
+	        :hexpand "false"
+	        :vexpand "false"
+	        (box 
+	            :class "speaker_icon"
+	            :orientation "v")
+	        (box 
+	            :orientation "v"
+	            :halign "center"
+	            :vexpand "false"
+	            :hexpand "false"
+                (label
+                    :class "speaker_text"
+                    :text "speaker"
+                    :valign "center"
+                    :halign "left" )
+	            (box
+	                :class "speaker_bar"
+	                :halign "center"
+	                :vexpand "false"
+	                :hexpand "false"
+	                (scale
+                  :value volume_percent
+                  :space-evenly "false"
+			            :orientation "h"
+			            :onchange "wpctl set-volume @DEFAULT_SINK@ {}%" 
+                  :tooltip "volume on ${volume_percent}%"
+			            :max 100
+			            :min 0))))
+        (label
+            :text "_____________________________________"
+            :class "audio_sep"
+            :halign "center")
+	    (box 
+	        :halign "v"
+	        :space-evenly "false"
+	        :hexpand "false"
+	        :vexpand "false"
+	        (box 
+	            :class "mic_icon"
+	            :orientation "v")
+	            (box 
+	                :orientation "v"
+	                :halign "center"
+	                :vexpand "false"
+	                :hexpand "false"
+                    (label
+                        :class "mic_text"
+                        :text "mic"
+                        :valign "center"
+                        :halign "left" )
+	                (box 
+	                    :class "mic_bar"
+	                    :halign "center"
+	                    :vexpand "false"
+	                    :hexpand "false"
+	                    (scale
+	                        :value mic_percent
+                            :space-evenly "false"
+			                :orientation "h"
+                            :tooltip "mic on ${mic_percent}%"
+			                :onchange "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ {}%" 
+			                :max 100
+			                :min 0))))))
+(defwindow audio_ctl
+    :stacking "fg"
+    :focusable "false"
+    :screen 1
+    :monitor 0
+	:geometry (geometry 
+        :anchor "top right"
+		:width "280px" 
+		:height "60px")
+    (audio))
+
+
+;;Define System widget  
+(defwidget system []
+  (box 
+    :class "sys_win"
+    :orientation "v"
+    :space-evenly "false"
+    :hexpand "false"
+    :vexpand "false"
+    :spacing 0
+    (box 
+        :class "sys_mem_box"
+        :orientation "h"
+        :space-evenly "false"
+        :halign "start"
+        (circular-progress
+            :value {EWW_RAM.used_mem_perc}
+            :class "sys_mem"
+            :thickness 9
+            (label
+                :text ""
+                :class "sys_icon_mem"
+                :limit-width 2
+                :show_truncated false
+                :wrap false
+                :angle 0.0))
+        (box
+            :orientation "v"
+            :space-evenly "false"
+            :spacing 0
+            :hexpand "false"
+            :vexpand "false"
+            (label
+                :text "memory"
+                :halign "start"
+                :class "sys_text_mem"
+                :limit-width 9
+                :show_truncated false
+                :wrap false)
+            (label
+                :text "${round((EWW_RAM.available_mem / 1024), 0)} | ${round((EWW_RAM.total_mem / 1024), 0)}mb "
+                :halign "start"
+                :class "sys_text_mem_sub"
+                :limit-width 22
+                :show_truncated false
+                :wrap false)
+            (label :text "${round((EWW_RAM.used_mem / 1024), 0)}mb free"
+                :halign "start"
+                :class "sys_text_mem_sub"
+                :limit-width 22
+                :show_truncated false
+                :wrap false)
+            ))))
+(defwindow system
+    :stacking "overlay"
+    :focusable "true"
+    :screen 1
+    :monitor 0
+	:geometry (geometry
+            :anchor "top right"
+			:width "290px" 
+			:height "120px")
+    (system))
+
+
+
+;;Calendar Widget
+(defwidget cal []
+	(box 
+	    :class "cal"
+	    :orientation "v"
+	    (box
+	        :class "cal-in"
+	        (calendar
+			      :day calendar_day 
+			      :year calendar_year))))
+(defwindow calendar
+    :stacking "fg"
+    :focusable "true"
+    :screen 1
+    :monitor 0 
+	  :geometry (geometry
+    :anchor "top right"
+	  :width "270px" 
+	  :height "60px")
+(cal))

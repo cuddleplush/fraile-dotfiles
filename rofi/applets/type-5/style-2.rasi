@@ -15,12 +15,12 @@ configuration {
 /*****----- Global Properties -----*****/
 * {
     font:                        "JetBrains Mono Nerd Font 10";
-    background:     #0A0A0A;
-    background-alt: #8EA1FF;
+    background:     #111111;
+    background-alt: #111111;
     foreground:     #FFFFFFFF;
     selected:       #FFFFFFFF;
     active:         #FFFFFFFF;
-    urgent:         #0A0A0A;
+    urgent:         #FFFFFFFF;
 }
 
 /*
@@ -35,7 +35,7 @@ window {
     fullscreen:                  false;
     width:                       600px;
     x-offset:                    0px;
-    y-offset:                    -335px;
+    y-offset:                    0px;
     margin:                      0px;
     padding:                     0px;
     border:                      0px solid;
@@ -60,7 +60,7 @@ mainbox {
 imagebox {
     border-radius:               5px;
     background-color:            transparent;
-    background-image:            url("~/.config/rofi/images/mnt.png", height);
+
     children:                    [ "dummy", "inputbar", "dummy" ];
 }
 
@@ -77,20 +77,20 @@ dummy{
     background-color:            transparent;
 }
 textbox-prompt-colon {
-    enabled:                     true;
+    enabled:                     false;
     expand:                      false;
     str:                         "";
     padding:                     10px 13px;
     border-radius:               5px;
     background-color:            @urgent;
-    text-color:                  @foreground;
+    text-color:                  #111111;
 }
 prompt {
     enabled:                     true;
     padding:                     10px;
     border-radius:               5px;
-    background-color:            @active;
-    text-color:                  @background;
+    background-color:            #ff7eb6;
+    text-color:                  #111111;
 }
 
 /*****----- Message -----*****/
@@ -102,11 +102,11 @@ message {
     border-radius:               0px;
     border-color:                @selected;
     background-color:            @background-alt;
-    text-color:                  @foreground;
+    text-color:                  #111111;
 }
 textbox {
     background-color:            inherit;
-    text-color:                  inherit;
+    text-color:                  #111111;
     vertical-align:              0.5;
     horizontal-align:            0.0;
 }
@@ -152,16 +152,16 @@ element alternate.normal {
 element normal.urgent,
 element alternate.urgent,
 element selected.active {
-    background-color:            var(urgent);
-    text-color:                  var(background);
+    background-color:            #111111;
+    text-color:                  #111111;
 }
 element normal.active,
 element alternate.active,
 element selected.urgent {
     background-color:            var(active);
-    text-color:                  var(background);
+    text-color:                  #111111;
 }
 element selected.normal {
-    background-color:            var(selected);
-    text-color:                  var(background);
+    background-color:            #33b1ff;
+    text-color:                  #111111;
 }
