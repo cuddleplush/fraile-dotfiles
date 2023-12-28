@@ -1,0 +1,42 @@
+* {
+    font-family: IBM Plex Mono;
+    font-size: 15px;
+}
+
+#window {
+    background: #0a0a0a;
+    padding: 10px;
+    border-radius: 0px;
+}
+
+#input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 0px;
+    background-color: #161616;
+}
+
+#outer-box {
+    padding: 50px;
+}
+
+#img {
+    margin-right: 6px;
+}
+
+#entry {
+    padding: 10px;
+    border-radius: 0px;
+    color: #e4e3e3;
+}
+
+#entry:selected {
+    color: #e4e3e3;
+    background-color: #161616;
+    outline-style: none;
+    font-weight: bold;
+}
+
+#text {
+    margin: 2px;
+}

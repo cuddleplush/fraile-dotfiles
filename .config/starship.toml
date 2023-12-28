@@ -1,0 +1,36 @@
+format = """
+$username\
+[ ]()\
+"""
+
+right_format = """
+$git_branch\
+$git_commit\
+[ ]()\
+$directory\
+"""
+[username]
+show_always = true
+style_user = "bg:#202020 fg:#CDCDCD"
+style_root = "bg:#202020 fg:#CDCDCD"
+format = '[ $user ]($style bold)'
+
+[directory]
+style = "bg:#202020 fg:#CDCDCD"
+format = "[ $path ]($style bold)"
+fish_style_pwd_dir_length = 1
+
+[git_branch]
+symbol = ' '
+style = "fg:#EE5396 bg:#202020"
+format = "[ $symbol$branch(:$remote_branch) @]($style)"
+truncation_length = 4
+truncation_symbol = ''
+ignore_branches = []
+
+[git_commit]
+commit_hash_length = 5
+only_detached = false
+tag_symbol = 'TAG'
+style = "fg:#EE5396 bg:#202020"
+format = "[ $hash$tag ]($style)"

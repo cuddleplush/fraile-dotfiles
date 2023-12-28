@@ -1,0 +1,13 @@
+#!/bin/zsh
+autoload colors && colors
+help="Usage: zappy [path/to/ascii] [(opt)<color>] [(opt)clear]\n\nArgument 1: Path to ascii file\nArgument 2: Name of color\nArgument 3: Clear the terminal"
+if [[ "$1" = "help" || "$1" = "-h" || "$1" = "--help" || "$1" = "" ]]; then
+    echo $help; exit 1
+fi
+fname=$1
+if [[ "$3" = "clear" || "$3" = "-c" || "$3" = "--clear" || "$2" = "clear" || "$2" = "-c" || "$2" = "--clear" ]]; then
+    clear
+elif [ -n "$3" ]; then
+    printf $help; echo; exit 1
+fi
+printf "%s" $fg[$2] "$(<$fname)"; echo

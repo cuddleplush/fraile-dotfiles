@@ -1,0 +1,234 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 45,
+    "spacing": 0,
+    // "fixed-center": false,
+    "margin-left": 0,
+    "margin-right": 0,
+    "margin-bottom": 0,
+    "margin-top": 0,
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/iconlang",
+        "hyprland/language",
+        "custom/iconwin",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "mpd#icon",
+        "mpd",
+        "mpd#time",
+    ],
+    "modules-right": [
+        "tray",
+        "custom/iconvol",
+        "pulseaudio#sink",
+        "custom/iconmic",
+        "pulseaudio#source",
+        "custom/iconcal",
+        "clock#weekday",
+        "custom/iconclock",
+        "clock"
+    ],
+
+// Left Modules
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "urgent": "",
+            "active": "",
+            "persistent": "",
+            "empty": ""
+        },
+
+        "persistent-workspaces": {
+            "1": ["DP-3"],
+            "2": ["DP-3"],
+            "3": ["DP-3"],
+            "4": ["DP-3"],
+            "5": ["DP-3"],
+            "11": ["HDMI-A-1"],
+            "12": ["HDMI-A-1"],
+            "13": ["HDMI-A-1"],
+            "14": ["HDMI-A-1"],
+            "15": ["HDMI-A-1"]
+        }
+    },
+
+    "hyprland/language": {
+        "format": "{}",
+        "format-en": "EN",
+        "format-ru": "RU",
+    },
+
+    "wlr/taskbar": {
+        "format": "{icon} {name}",
+        "icon-size": 14,
+        "icon-theme": "Fluent-grey",
+        "tooltip": false,
+        "on-click": "activate",
+        "on-click-middle": "close",
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "rewrite": {
+            "": "Hyprland",
+            "zsh": "WezTerm",
+            "wezterm": "WezTerm",
+            "Alacritty": "Alacritty",
+            "(.*) — Mozilla Firefox": "$1",
+            "nvim": "Neovim"
+        },
+        "separate-outputs": true,
+        "max-length": 30
+    },
+
+// Center Modules
+    "mpd": {
+        "format": "{artist} - {title}",
+        "format-paused": "{artist} - {title}",
+        "format-disconnected": "Disconnected",
+        "format-stopped": "",
+        "max-length": 40,
+        "interval": 10,
+    },
+
+    "mpd#time": {
+        "format":"{elapsedTime:%M:%S}/{totalTime:%M:%S}",
+        "format-paused": "{elapsedTime:%M:%S}/{totalTime:%M:%S}",
+        "format-disconnected": "Disconnected",
+        "format-stopped": "",
+        "interval": 1,
+    },
+
+    "mpd#icon": {
+        "format": "{stateIcon}",
+        "format-paused": "{stateIcon}",
+        "format-disconnected": "Disconnected",
+        "format-stopped": "",
+        "interval": 10,
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+    },
+// Right Modules
+
+    "custom/icontemp": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand icontemp"
+    },
+
+    "custom/temp": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand temp"
+    },
+
+    "custom/iconcpu": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand iconcpu"
+    },
+
+    "custom/cpu": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand cpu"
+    },
+
+    "custom/ram": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand ram"
+    },
+
+     "custom/iconram": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand iconram"
+    },
+      
+    "custom/expand": {
+        "on-click": "~/.config/hypr/scripts/expand_toolbar",
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/hypr/scripts/tools/expand arrow-icon"
+    },
+
+    "tray": {
+        "spacing": 10,
+        "show-passive-items": true
+    },
+
+    "pulseaudio#sink": {
+        "format": "{volume}%",
+        "format-muted": " Muted {volume}%",
+        "on-click": "pavucontrol",
+        "on-scroll-down": "swayosd --output-volume lower",
+        "on-scroll-up": "swayosd --output-volume raise",
+        "on-click-right": "swayosd --output-volume mute-toggle",
+        "max-volume": 100
+    },    
+
+    "pulseaudio#source": {
+        "format": "{format_source}",
+        "format-source": "{volume}%",
+        "format-source-muted": "Muted",
+        "on-click": "pavucontrol -t 4",
+        "on-scroll-down": "swayosd --input-volume lower",
+        "on-scroll-up": "swayosd --input-volume raise",
+        "on-click-right": "swayosd --input-volume mute-toggle",
+    },
+
+    "clock#weekday": {
+        "interval": 60,
+        "format": "{:%A %d}",
+        "max-length": 25,
+        "on-click": "$HOME/.config/eww/scripts/launch_calendar"
+    },
+
+    "clock": {
+        "interval": 60,
+        "format": "{:%H:%M}",
+        "timezone": "CET",
+        "max-length": 25
+    },
+
+// Icons
+
+   "custom/iconclock": {
+        "format": "󱑎",
+        "tooltip": false
+    },
+
+    "custom/iconcal": {
+        "format": "󱪺",
+        "tooltip": false
+    },
+
+    "custom/iconvol": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "custom/iconmic": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "custom/iconlang": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "custom/iconwin": {
+        "format": "󰖲",
+        "tooltip": false
+    }
+}
