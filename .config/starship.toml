@@ -1,36 +1,57 @@
 format = """
 $username\
+$hostname\
 [ ]()\
 """
 
 right_format = """
+$git_metrics\
 $git_branch\
 $git_commit\
 [ ]()\
-$directory\
+$directory
 """
+
 [username]
 show_always = true
-style_user = "bg:#202020 fg:#CDCDCD"
-style_root = "bg:#202020 fg:#CDCDCD"
+style_user = "bg:#33b1ff fg:#0a0a0a"
+style_root = "bg:#CDCDCD fg:#0a0a0a"
 format = '[ $user ]($style bold)'
 
 [directory]
-style = "bg:#202020 fg:#CDCDCD"
+style = "bg:#cdcdcd fg:#0a0a0a"
 format = "[ $path ]($style bold)"
 fish_style_pwd_dir_length = 1
+read_only = "🔒"
 
 [git_branch]
 symbol = ' '
-style = "fg:#EE5396 bg:#202020"
-format = "[ $symbol$branch(:$remote_branch) @]($style)"
-truncation_length = 4
+style = "bg:#2F2F2F fg:#cdcdcd"
+format = "[ $symbol$branch(:$remote_branch) @]($style bold)"
+truncation_length = 10
 truncation_symbol = ''
 ignore_branches = []
 
 [git_commit]
-commit_hash_length = 5
+commit_hash_length = 7
 only_detached = false
 tag_symbol = 'TAG'
-style = "fg:#EE5396 bg:#202020"
-format = "[ $hash$tag ]($style)"
+style = "bg:#2F2F2F fg:#cdcdcd"
+format = "[ $hash$tag ]($style bold)"
+
+[cmd_duration]
+min_time = 18000
+style = "bg:#2F2F2F fg:#cdcdcd"
+format = "[ $duration ]($style bold)"
+
+[git_metrics]
+disabled = false
+added_style = "bold green bg:#1b1b1b"
+deleted_style = "bold red bg:#1b1b1b"
+format = "[ +$added ]($added_style)[-$deleted ]($deleted_style) "
+
+[hostname]
+ssh_only = true
+style = "bg:#33b1ff fg:#0a0a0a"
+format = ' [ $hostname ]($style bold)'
+disabled = false

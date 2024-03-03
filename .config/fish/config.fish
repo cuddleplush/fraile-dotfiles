@@ -1,7 +1,7 @@
 if status is-interactive
   set -g fish_greeting
-  # echo "hello world"
-  hearts.zsh
+  # hearts.zsh
+  # pokeget --hide-name (random choice eevee vaporeon jolteon flareon espeon umbreon leafeon glaceon sylveon)
 end
 
 source ~/.config/fish/functions/abbrs.fish
@@ -11,3 +11,4 @@ function fish_user_key_bindings
 end
 
 starship init fish | source
+zoxide init fish | source

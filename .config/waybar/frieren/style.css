@@ -1,0 +1,150 @@
+* {
+  font-family: BlexMono Nerd Font Propo; }
+
+window#waybar {
+  background-color: #0a0a0a; }
+
+button {
+  /* Use box-shadow instead of border so the text isn't offset */
+  box-shadow: inset 0 -3px transparent;
+  border: none;
+  border-radius: 0;
+  transition: all 300ms cubic-bezier(0, 0, 0.2, 1); }
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+  background: transparent; }
+
+.modules-left {
+  margin-left: 8px; }
+
+.modules-right {
+  margin-right: 8px; }
+
+#taskbar button,
+#language,
+#window,
+#tray,
+#clock.weekday,
+#clock.time {
+  padding: 0 10px 0 10px;
+  margin: 8px 0 8px 8px;
+  color: #cdcdcd;
+  background-color: #1b1b1b;
+  font-weight: bold; }
+
+#custom-launcher {
+  all: unset;
+  color: #cdcdcd;
+  background-color: #2f2f2f;
+  font-size: 20px;
+  margin: 8px 4px 8px 0;
+  padding: 0 6px 0 7px;
+  transition: all 300ms cubic-bezier(0, 0, 0.2, 1); }
+
+#custom-launcher:hover {
+  background-color: #cdcdcd;
+  color: #0a0a0a; }
+
+#custom-iconclock,
+#custom-iconlang,
+#custom-iconwin,
+#custom-iconcal {
+  all: unset;
+  color: #cdcdcd;
+  background-color: #2f2f2f;
+  font-weight: 100;
+  margin: 8px 0 8px 8px;
+  padding: 0 0px 0 0px;
+  min-width: 29px;
+  min-height: 29px; }
+
+#custom-iconwin {
+  margin-left: 4px; }
+
+#pulseaudio.mute {
+  all: unset;
+  color: #ee5396;
+  background-color: #1b1b1b;
+  font-weight: 100;
+  margin: 8px 0 8px 8px;
+  padding: 0 0px 0 0px;
+  min-width: 29px;
+  min-height: 29px; }
+
+#pulseaudio.sink,
+#pulseaudio.source,
+#language,
+#window,
+#clock.weekday,
+#clock.time {
+  margin-left: 0px; }
+
+#language,
+#clock.weekday,
+#clock.time {
+  background-color: #1b1b1b;
+  color: #cdcdcd;
+  transition: all 300ms cubic-bezier(0, 0, 0.2, 1); }
+
+#language:hover,
+#clock.weekday:hover,
+#clock.time:hover {
+  background-color: #cdcdcd;
+  color: #0a0a0a; }
+
+#workspaces {
+  all: unset;
+  min-height: 0px;
+  margin: 8px 0px; }
+
+#workspaces button {
+  all: unset;
+  font-weight: bold;
+  min-height: 0px;
+  min-width: 60px;
+  margin: 0px 4px;
+  background-color: #2f2f2f;
+  color: #cdcdcd;
+  transition: all 300ms cubic-bezier(0, 0, 0.2, 1); }
+
+#workspaces button.empty {
+  background-color: #1b1b1b;
+  color: #525252; }
+
+#workspaces button.active {
+  color: #0a0a0a;
+  background: linear-gradient(45deg, #cdcdcd 0%, #33b1ff 100%);
+  background-size: 300% 300%;
+  animation: gradient 10s ease infinite; }
+
+#workspaces button:hover {
+  background-color: #cdcdcd;
+  color: #0a0a0a; }
+
+tooltip {
+  all: unset;
+  background-color: #161616;
+  font-weight: bold; }
+
+#tray menu {
+  all: unset;
+  background-color: #1b1b1b;
+  padding: 20px 0px; }
+
+#tray menu menuitem {
+  all: unset;
+  transition: all 300ms cubic-bezier(0, 0, 0.2, 1); }
+
+#tray menu menuitem:hover {
+  all: unset;
+  background-color: #cdcdcd;
+  color: #0a0a0a; }
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%; }
+  50% {
+    background-position: 100% 50%; }
+  100% {
+    background-position: 0% 50%; } }

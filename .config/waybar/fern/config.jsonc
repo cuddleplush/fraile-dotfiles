@@ -1,0 +1,217 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 45,
+  "spacing": 0,
+    // "fixed-center": false,
+    "margin-left": 0,
+    "margin-right": 0,
+    "margin-bottom": 0,
+    "margin-top": 0,
+    "modules-left": [
+      "custom/launcher",
+      "hyprland/workspaces",
+      "custom/iconlang",
+      "hyprland/language",
+      "custom/iconwin",
+      "hyprland/window"
+    ],
+    // "modules-center": [
+    //   "custom/spotify" 
+    // ],
+    "modules-right": [
+      "tray",
+      "custom/iconvol",
+      "pulseaudio#sink",
+      "custom/iconmic",
+      "pulseaudio#source",
+      "custom/iconcal",
+      "clock#weekday",
+      // "custom/iconclock",
+      "clock#time"
+    ],
+
+// Left Modules
+"custom/spotify": {
+    "format": "{icon} {}",
+    "escape": true,
+    "return-type": "json",
+    "max-length": 40,
+    "interval": 30, // Remove this if your script is endless and write in loop
+    "on-click": "playerctl -p spotify play-pause",
+    "on-click-right": "killall spotify",
+    "smooth-scrolling-threshold": 10, // This value was tested using a trackpad, it should be lowered if using a mouse.
+    "on-scroll-up" : "playerctl -p spotify next",
+    "on-scroll-down" : "playerctl -p spotify previous",
+    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+    "exec-if": "pgrep spotify"
+},
+
+"hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "1": "I",
+      "2": "II",
+      "3": "III",
+      "4": "IV",
+      "5": "V",
+      "6": "VI",
+      "7": "VII",
+      "8": "VIII",
+      "9": "IX",
+      "10": "X",
+      "11": "I",
+      "12": "II",
+      "13": "III",
+      "14": "IV",
+      "15": "V",
+      "16": "VI",
+      "17": "VII",
+      "18": "VIII",
+      "19": "IX",
+      "20": "X",
+    },
+  // "format-icons": {
+  //   "default": "",
+  //   "urgent": "",
+  //   "active": "",
+  //   "persistent": "",
+  //   "empty": ""
+  // },
+
+    // "persistent-workspaces": {
+    //   "DP-3": [ 1, 2, 3, 4, 5 ], 
+    //   "HDMI-A-1": [ 11, 12, 13, 14, 15 ],
+    // }
+  },
+
+"hyprland/language": {
+  "format": "{}",
+  "format-en": "EN",
+  "format-ru": "RU",
+},
+
+"hyprland/window": {
+  "format": "{}",
+  "rewrite": {
+    "": "Hyprland",
+    "zsh": "WezTerm",
+    "wezterm": "WezTerm",
+    "Alacritty": "Alacritty",
+    "(.*) — Mozilla Firefox": "$1",
+    "nvim": "Neovim"
+  },
+  "separate-outputs": true,
+  "max-length": 30
+},
+
+// Center Modules
+"mpd": {
+  "format": "{artist} - {title}",
+  "format-paused": "{artist} - {title}",
+  "format-disconnected": "Disconnected",
+  "format-stopped": "",
+  "max-length": 40,
+  "interval": 10,
+},
+
+"mpd#time": {
+  "format":"{elapsedTime:%M:%S}/{totalTime:%M:%S}",
+  "format-paused": "{elapsedTime:%M:%S}/{totalTime:%M:%S}",
+  "format-disconnected": "Disconnected",
+  "format-stopped": "",
+  "interval": 1,
+},
+
+"mpd#icon": {
+  "format": "{stateIcon}",
+  "format-paused": "{stateIcon}",
+  "format-disconnected": "Disconnected",
+  "format-stopped": "",
+  "interval": 10,
+  "state-icons": {
+    "paused": "",
+    "playing": ""
+  },
+},
+
+"tray": {
+  "spacing": 10,
+  "show-passive-items": true
+},
+
+"pulseaudio#sink": {
+  "format": "{volume}%",
+  "format-muted": " Muted {volume}%",
+  "on-click": "pavucontrol",
+  "on-scroll-down": "swayosd-client --output-volume lower",
+  "on-scroll-up": "swayosd-client --output-volume raise",
+  "on-click-right": "swayosd-client --output-volume mute-toggle",
+  "max-volume": 100
+},    
+
+"pulseaudio#source": {
+  "format": "{format_source}",
+  "format-source": "{volume}%",
+  "format-source-muted": "Muted",
+  "on-click": "pavucontrol -t 4",
+  "on-scroll-down": "swayosd-client --input-volume lower",
+  "on-scroll-up": "swayosd-client --input-volume raise",
+  "on-click-right": "swayosd-client --input-volume mute-toggle",
+},
+
+"clock#weekday": {
+  "interval": 60,
+  "format": "{:%A %d}",
+  "max-length": 25,
+  "on-click": "$HOME/.config/eww/scripts/launch_calendar"
+},
+
+"clock#time": {
+  "interval": 60,
+  "format": "{:%H:%M}",
+  "timezone": "CET",
+  "max-length": 25,
+  "on-click": "$HOME/.config/eww/scripts/launch_calendar"
+},
+
+// Icons
+
+"custom/launcher": {
+  "format": "󰣨",
+  "on-click": "wallpaper.sh forward",
+  "on-click-right": "wallpaper.sh backward",
+  "tooltip": false
+},
+
+"custom/iconlang": {
+  "format": "",
+  "tooltip": false
+},
+
+"custom/iconwin": {
+  "format": "󰖲",
+  "tooltip": false
+},
+
+"custom/iconvol": {
+  "format": "",
+  "tooltip": false
+},
+
+"custom/iconmic": {
+  "format": "",
+  "tooltip": false
+},
+
+"custom/iconclock": {
+  "format": "󱑎",
+  "tooltip": false
+},
+
+"custom/iconcal": {
+  "format": "󱪺",
+  "tooltip": false
+}
+
+}
